@@ -19,27 +19,6 @@ public class LIDAR_test
 {
     public static remoteApi vrep;
     
-    public static void readSensors(int clientID,IntW sonar_handles[],float sonar_readings[], BoolW detect_state[]){
-        FloatWA coord = new FloatWA(3);
-        for (int i = 0; i < 16; i++){
-            float[] temp;
-            detect_state[i] = new BoolW(false);
-            int ret;
-            ret = vrep.simxReadProximitySensor(clientID,sonar_handles[i].getValue(),detect_state[i],coord,null,null,remoteApi.simx_opmode_buffer);
-            //System.out.println("RET = "+ret);
-            if(ret  == 0){
-                if(detect_state[i].getValue() == true){
-                    //System.out.println("OIIIIIEEEEEEEEE");                    
-                }                
-            }
-            else
-                sonar_readings[i] = -1;
-            temp = coord.getArray();
-            sonar_readings[i] = temp[2];
-        }
-    }
-    
-    @SuppressWarnings("SleepWhileInLoop")
     public static void main(String[] args)
     {
         System.out.println("Program started");
@@ -74,7 +53,6 @@ public class LIDAR_test
             IntW right_motor_h = new IntW(-1);
             vrep.simxGetObjectHandle(clientID,"Pioneer_p3dx_rightMotor", right_motor_h,remoteApi.simx_opmode_blocking);
 
-            //IntW[] sonar_handles = new IntW[16];
             
             float dt;
             dt = (float) 1;
