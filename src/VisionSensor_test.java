@@ -48,16 +48,6 @@ public class VisionSensor_test {
             ret = vrep.simxSynchronous(clientID,true);
             if(ret == remoteApi.simx_return_ok)
                 ret = vrep.simxSynchronousTrigger(clientID);
-    
-            IntW p3dx_handle = new IntW(-1);
-            ret = vrep.simxGetObjectHandle(clientID,"Pioneer_p3dx",p3dx_handle, remoteApi.simx_opmode_blocking);
-            
-            IntW left_motor_h = new IntW(-1);
-            vrep.simxGetObjectHandle(clientID,"Pioneer_p3dx_leftMotor", left_motor_h,remoteApi.simx_opmode_blocking);
-            IntW right_motor_h = new IntW(-1);
-            vrep.simxGetObjectHandle(clientID,"Pioneer_p3dx_rightMotor", right_motor_h,remoteApi.simx_opmode_blocking);
-
-            //IntW[] sonar_handles = new IntW[16];
             
             float dt;
             dt = (float) 1;
@@ -67,7 +57,7 @@ public class VisionSensor_test {
             
             vrep.simxStartSimulation(clientID,remoteApi.simx_opmode_blocking);
             
-            int res = 64;
+            int res = 256;
             CharWA image = new CharWA(res*res*3);
             System.out.println("image size "+image.getLength());
             IntWA res_arr = new IntWA(2);
@@ -96,7 +86,7 @@ public class VisionSensor_test {
             System.out.println("size img "+img.length);
             
             try {
-                PrintWriter pr = new PrintWriter("a.txt");
+                PrintWriter pr = new PrintWriter("byteMatrix.txt");
 
                 for(int k = 0; k < 3; k++){
                     for(int i = 0; i < res; i++){
@@ -109,7 +99,7 @@ public class VisionSensor_test {
                 }
                 pr.close();
                 
-                PrintWriter pr2 = new PrintWriter("b.txt");
+                PrintWriter pr2 = new PrintWriter("byteArray.txt");
                 
                 for(int i = 0; i < img.length;i++){
                     pr2.println((int)img[i]);
